@@ -1,0 +1,27 @@
+[
+{
+  "action": "defaults",
+  "domain": "example.com",
+  "reverse_domain": "1.168.192.in-addr.arpa",
+  "reverse_enabled": true,
+  "record_type": "A"
+},
+{
+  "action": "add_domain",
+  "domain": "1.168.192.in-addr.arpa"
+},
+{
+  "action": "del_domain",
+  "domain": "2.168.192.in-addr.arpa"
+},
+{
+  "action": "add_host",
+  "host": "my-host",
+  "record_value": "192.168.1.2",
+  "dhcp_mac": "aa:bb:cc:dd:ee:ff"
+},
+{
+  "action"; "del_host",
+  "host": "my-host"
+}
+]
