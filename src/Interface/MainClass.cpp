@@ -15,7 +15,8 @@ MainClass::MainClass(int argc, char *argv[])
 
 int MainClass::main()
 {
-    CommandLineOption configFile("config", 'c', "Path to the configuration directory", "PATH", "/etc/pdns-slave/");
+    CommandLineOption configFile("config", 'c', "Path to the configuration file",
+                                 "FILE", "/etc/pdns-slave/pdns-slave.json");
     CommandLineOption help("help", 'h', "Displays this help", "", "");
     CommandLineParser parser(_argc, _argv);
     parser.addOption(&help);
@@ -25,12 +26,8 @@ int MainClass::main()
     if (help.isSet())
         return parser.showHelp(0, false);
 
-    auto path = configFile.getValue();
-    std::cout << "Using configuration directory " << path << std::endl;
-
-    auto sqlPath = path + "/sql.json";
-    auto hostsPath = path + "/hosts.json";
-    auto dhcpPath = path + "/dhcp.conf";
+    auto file = configFile.getValue();
+    std::cout << "Using configuration file " << file << std::endl;
 
     return 0;
 }
