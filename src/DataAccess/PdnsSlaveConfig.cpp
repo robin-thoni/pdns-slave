@@ -4,6 +4,7 @@
 
 #include <fstream>
 #include <iostream>
+# include <json/json.h>
 #include "PdnsSlaveConfig.h"
 
 PdnsSlaveConfig::PdnsSlaveConfig(const std::string &filePath)
@@ -16,27 +17,27 @@ bool PdnsSlaveConfig::readConfig()
     std::ifstream file(_filePath);
     if (!file)
         return false;
+    Json::Value root;
     try
     {
-        Json::Value root;
         file >> root;
         file.close();
-        if (!readString(root, "dhcpd-file", _dhcpdFilePath))
-            return false;
-        if (!readString(root, "dhcpd-template", _dhcpdTemplatePath))
-            return false;
-        if (!readString(root, "hosts-file", _hostsPath))
-            return false;
-        if (!readSqlConfiguration(root, "master", _masterConfig))
-            return false;
-        if (!readSqlConfiguration(root, "slave", _slaveConfig))
-            return false;
     }
     catch (...)
     {
         file.close();
         return false;
     }
+    if (!readString(root, "dhcpd-file", _dhcpdFilePath))
+        return false;
+    if (!readString(root, "dhcpd-template", _dhcpdTemplatePath))
+        return false;
+    if (!readString(root, "hosts-file", _hostsPath))
+        return false;
+    if (!readSqlConfiguration(root, "master", _masterConfig))
+        return false;
+    if (!readSqlConfiguration(root, "slave", _slaveConfig))
+        return false;
 
     return true;
 }

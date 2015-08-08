@@ -6,8 +6,12 @@
 #define PDNS_SLAVE_PDNSSLAVECONFIG_H
 
 # include <string>
-# include <json/json.h>
 # include "DBO/SqlConfiguration.h"
+
+namespace Json
+{
+    class Value;
+}
 
 class PdnsSlaveConfig
 {
