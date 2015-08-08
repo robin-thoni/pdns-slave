@@ -6,7 +6,15 @@ set(SOURCE_FILES
   Interface/MainClass.h
   Interface/CommandLineParser.cpp
   Interface/CommandLineParser.h
-  Interface/CommandLineOption.cpp
-  Interface/CommandLineOption.h
+  DBO/CommandLineOption.cpp
+  DBO/CommandLineOption.h
+  Business/PdnsSlave.cpp
+  Business/PdnsSlave.h
+  DBO/SqlConfiguration.cpp
+  DBO/SqlConfiguration.h
+  DataAccess/PdnsSlaveConfig.cpp
+  DataAccess/PdnsSlaveConfig.h
   )
-add_executable(pdns-slave ${SOURCE_FILES})
+set(LIBS ${LIBS} jsoncpp)
+add_executable(pdns-slave ${SOURCE_FILES} DataAccess/HostsConfig.cpp DataAccess/HostsConfig.h)
+target_link_libraries(pdns-slave ${LIBS})

@@ -5,6 +5,7 @@
 #include <iostream>
 #include <sysexits.h>
 #include "CommandLineParser.h"
+#include "Business/PdnsSlave.h"
 #include "MainClass.h"
 
 MainClass::MainClass(int argc, char *argv[])
@@ -26,8 +27,20 @@ int MainClass::main()
     if (help.isSet())
         return parser.showHelp(0, false);
 
-    auto file = configFile.getValue();
-    std::cout << "Using configuration file " << file << std::endl;
+    auto filePath = configFile.getValue();
+    std::cout << "Using configuration file " << filePath << std::endl;
+
+    PdnsSlave pdnsSlave(filePath);
+    if (!pdnsSlave.readConfig())
+    {
+        std::cerr << "Failed to read pdns-slave configuration" << std::endl;
+        return 1;
+    }
+    if (!pdnsSlave.readDhcpdTemplate())
+    {
+        std::cerr << "Failed to read dhcpd template" << std::endl;
+        return 2;
+    }
 
     return 0;
 }
