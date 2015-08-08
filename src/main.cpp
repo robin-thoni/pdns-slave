@@ -1,4 +1,7 @@
+#include "Interface/MainClass.h"
+
 int main(int argc, char* argv[])
 {
-  return 0;
+    MainClass m(argc, argv);
+    return m.main();
 }
