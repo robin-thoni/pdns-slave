@@ -2,6 +2,9 @@ conf/sql.json
 conf/dhcp.conf
 conf/hosts.json
 
+/.idea
+/build
+
 # Compiled Object files
 *.slo
 *.lo
