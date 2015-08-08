@@ -1,5 +1,6 @@
-conf/sql.json
-conf/dhcp.conf
+conf/pdns-slave.json
+conf/dhcpd.conf
+conf/dhcpd-gen.conf
 conf/hosts.json
 
 /.idea

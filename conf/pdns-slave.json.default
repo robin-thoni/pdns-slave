@@ -1,4 +1,9 @@
 {
+  "dhcpd-file":       "/etc/dhcp/dhcpd.conf",
+  "dhcpd-template":   "/etc/pdns-slave/dhcpd.conf",
+
+  "hosts-file":       "/etc/pdns-slave/hosts.json",
+
   "master-server":    "ns.example.com",
   "master-user":      "master-user",
   "master-password":  "master-password",
