@@ -5,6 +5,7 @@ conf/hosts.json
 
 /.idea
 /build
+*.swp
 
 # Compiled Object files
 *.slo
