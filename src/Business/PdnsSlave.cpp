@@ -3,6 +3,7 @@
 //
 
 #include <fstream>
+#include <DataAccess/MySql.h>
 #include "DataAccess/PdnsSlaveConfig.h"
 #include "DataAccess/HostsConfig.h"
 #include "PdnsSlave.h"
@@ -63,7 +64,16 @@ Result<Actions> PdnsSlave::readHosts()
 
 BResult PdnsSlave::overridePdns()
 {
-    return true;
+    MySql mysql(_masterConfig, _slaveConfig);
+    auto res = mysql.dump();
+    if (!res)
+        return res;
+    if (!(res = mysql.insert()))
+        return res;
+    std::string sql;
+    for (auto a : _actions)
+        sql += a->getSqlQuery();
+    return mysql.override(sql);
 }
 
 BResult PdnsSlave::overrideDhcp()

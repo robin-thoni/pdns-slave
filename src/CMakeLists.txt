@@ -30,5 +30,5 @@ set(SOURCE_FILES
   DBO/Actions/ActionAddDomain.h
   )
 set(LIBS ${LIBS} jsoncpp)
-add_executable(pdns-slave ${SOURCE_FILES})
+add_executable(pdns-slave ${SOURCE_FILES} DataAccess/MySql.cpp DataAccess/MySql.h)
 target_link_libraries(pdns-slave ${LIBS})

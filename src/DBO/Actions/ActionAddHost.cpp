@@ -37,7 +37,7 @@ const std::string ActionAddHost::getSql() const
         auto reverseDomain = _reverseDomain.empty() ? "in-addr.arpa" : _reverseDomain + ".in-addr.arpa";
 
         query += "INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)\n"
-                 "    VALUES((SELECT get_domain_id(\"" + reverseDomain + "\")), \""
+                 "    VALUES((SELECT id FROM domains WHERE name=\"" + reverseDomain + "\"), \""
                  + reversedValue + "." + reverseDomain + "\", \"PTR\","
                  " \"" + _host + "." + _domain + "\", 84600, 0, " + std::to_string(time(nullptr)) + ");\n";
     }
