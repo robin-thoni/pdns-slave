@@ -4,12 +4,12 @@
 
   "hosts-file":       "/etc/pdns-slave/hosts.json",
 
-  "master-host":    "ns.example.com",
+  "master-host":      "ns.example.com",
   "master-user":      "master-user",
   "master-password":  "master-password",
   "master-database":  "powerdns",
 
-  "slave-host":     "127.0.0.1",
+  "slave-host":       "127.0.0.1",
   "slave-user":       "slave-user",
   "slave-password":   "slave-password",
   "slave-database":   "powerdns"
