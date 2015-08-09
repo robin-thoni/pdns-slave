@@ -15,13 +15,15 @@ public:
     Action();
     virtual ~Action();
 
-    virtual const std::string getSql() const = 0;
+    const std::string getSqlQuery() const;
 
     const std::string &getDomain() const;
 
     void setDomain(const std::string &domain);
 
-private:
+protected:
+    virtual const std::string getSql() const = 0;
+
     std::string _domain;
 };
 

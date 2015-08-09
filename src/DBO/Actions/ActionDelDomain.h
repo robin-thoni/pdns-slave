@@ -12,6 +12,7 @@ class ActionDelDomain : public Action
 public:
     ActionDelDomain();
 
+protected:
     const std::string getSql() const override;
 };
 

@@ -50,5 +50,7 @@ Result<Actions> PdnsSlave::readHosts()
     if (!res)
         return res;
     _actions = res.getData();
+    for (auto action : _actions)
+        std::cout << action->getSqlQuery() << std::endl << std::endl;
     return res;
 }

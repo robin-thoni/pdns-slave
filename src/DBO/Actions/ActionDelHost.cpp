@@ -10,7 +10,8 @@ ActionDelHost::ActionDelHost()
 
 const std::string ActionDelHost::getSql() const
 {
-    return "";
+    return "DELETE FROM records WHERE name=\"" + _host + "." + _domain + "\" AND "
+           "domain_id=@domain_id;";
 }
 
 const std::string &ActionDelHost::getHost() const

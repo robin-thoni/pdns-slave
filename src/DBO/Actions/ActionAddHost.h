@@ -12,8 +12,6 @@ class ActionAddHost : public Action
 public:
     ActionAddHost();
 
-    const std::string getSql() const override;
-
     const std::string &getHost() const;
 
     void setHost(const std::string &host);
@@ -38,7 +36,12 @@ public:
 
     void setReverseEnabled(bool reverseEnabled);
 
+protected:
+    const std::string getSql() const override;
+
 private:
+    const std::string getReversedValue() const;
+
     std::string _host;
 
     std::string _recordValue;

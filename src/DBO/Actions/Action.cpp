@@ -21,3 +21,8 @@ void Action::setDomain(const std::string &domain)
 {
     _domain = domain;
 }
+
+const std::string Action::getSqlQuery() const
+{
+    return "SET @domain_id=(SELECT get_domain_id(\"" + _domain + "\"));\n" + getSql();
+}

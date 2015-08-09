@@ -12,6 +12,7 @@ class ActionAddDomain : public Action
 public:
     ActionAddDomain();
 
+protected:
     const std::string getSql() const override;
 };
 
