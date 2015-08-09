@@ -1,27 +1,34 @@
-[
 {
-  "action": "defaults",
-  "domain": "example.com",
-  "reverse_domain": "1.168.192.in-addr.arpa",
-  "reverse_enabled": true,
-  "record_type": "A"
-},
-{
-  "action": "add_domain",
-  "domain": "1.168.192.in-addr.arpa"
-},
-{
-  "action": "del_domain",
-  "domain": "2.168.192.in-addr.arpa"
-},
-{
-  "action": "add_host",
-  "host": "my-host",
-  "record_value": "192.168.1.2",
-  "dhcp_mac": "aa:bb:cc:dd:ee:ff"
-},
-{
-  "action"; "del_host",
-  "host": "my-host"
+  "defaults": {
+    "action": "add_host",
+    "domain": "example.com",
+    "reverse_domain": "1.168.192",
+    "reverse_enabled": true,
+    "record_type": "A",
+    "dhcp_mac": ""
+  },
+  "actions":[
+  {
+    "action": "add_domain",
+    "domain": "1.168.192.in-addr.arpa"
+  },
+  {
+    "action": "del_domain",
+    "domain": "2.168.192.in-addr.arpa"
+  },
+  {
+    "host": "test",
+    "record_value": "192.168.1.2",
+    "dhcp_mac": "aa:bb:cc:dd:ee:42"
+  },
+  {
+    "host": "test2",
+    "record_value": "192.168.1.3",
+    "dhcp_mac": "de:ad:de:ad:de:ad"
+  },
+  {
+    "action": "del_host",
+    "host": "badhost"
+  }
+  ]
 }
-]
