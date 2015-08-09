@@ -19,7 +19,7 @@
         if (!v || !v.is##TYPE())                        \
         {                                               \
             res.addWarning("Could not find value "      \
-                VALUE " for item " + i);                \
+                VALUE " for item " + std::to_string(i));\
             action = nullptr;                           \
         }                                               \
         else                                            \
