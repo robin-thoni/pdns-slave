@@ -5,7 +5,14 @@
     "reverse_domain": "1.168.192",
     "reverse_enabled": true,
     "record_type": "A",
-    "dhcp_mac": ""
+    "dhcp_mac": "",
+    "record_ttl": 84600,
+    "soa_ns": "ns.example.com",
+    "soa_mail": "root.example.com",
+    "soa_refresh": 86400,
+    "soa_retry": 7200,
+    "soa_expire": 3600000,
+    "soa_ttl": 172800
   },
   "actions":[
   {

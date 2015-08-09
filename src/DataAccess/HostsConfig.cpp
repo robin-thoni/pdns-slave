@@ -33,6 +33,8 @@
 
 #define SET_VALUE_BOOL(VALUE, METHOD) SET_VALUE(VALUE, METHOD, Bool)
 
+#define SET_VALUE_INT(VALUE, METHOD) SET_VALUE(VALUE, METHOD, Int)
+
 HostsConfig::HostsConfig(const std::string &filePath)
     : _filePath(filePath)
 {
@@ -129,6 +131,7 @@ std::shared_ptr<Action> HostsConfig::readAddHost(const Json::Value &act, const J
     SET_VALUE_STRING("dhcp_mac", setDhcpMac);
     SET_VALUE_STRING("reverse_domain", setReverseDomain);
     SET_VALUE_BOOL("reverse_enabled", setReverseEnabled);
+    SET_VALUE_INT("record_ttl", setTtl);
     return action;
 }
 
@@ -146,6 +149,13 @@ std::shared_ptr<Action> HostsConfig::readAddDomain(const Json::Value &act, const
 {
     auto action = std::make_shared<ActionAddDomain>();
     SET_VALUE_STRING("domain", setDomain);
+    SET_VALUE_STRING("soa_ns", setSoaNs);
+    SET_VALUE_STRING("soa_mail", setSoaMail);
+    SET_VALUE_INT("soa_refresh", setSoaRefresh);
+    SET_VALUE_INT("soa_retry", setSoaRetry);
+    SET_VALUE_INT("soa_expire", setSoaExpire);
+    SET_VALUE_INT("soa_ttl", setSoaTtl);
+    SET_VALUE_INT("record_ttl", setTtl);
     return action;
 }
 

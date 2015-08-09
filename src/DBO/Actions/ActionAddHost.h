@@ -36,6 +36,10 @@ public:
 
     void setReverseEnabled(bool reverseEnabled);
 
+    int getTtl() const;
+
+    void setTtl(int ttl);
+
 protected:
     const std::string getSql() const override;
 
@@ -55,6 +59,8 @@ private:
     std::string _reverseDomain;
 
     bool _reverseEnabled;
+
+    int _ttl;
 };
 
 

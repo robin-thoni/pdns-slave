@@ -30,7 +30,7 @@ const std::string ActionAddHost::getSql() const
     auto host = _host.empty() ? _domain : _host + "." + _domain;
     auto query = "INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)\n"
             "    VALUES(@domain_id, \"" + host + "\", \"" + _recordType + "\","
-            " \"" + _recordValue + "\", 84600, 0, " + std::to_string(time(nullptr)) + ");\n";
+            " \"" + _recordValue + "\", " + std::to_string(_ttl) + ", 0, " + std::to_string(time(nullptr)) + ");\n";
 
     if (_reverseEnabled && _recordType == "A")
     {
@@ -103,6 +103,16 @@ bool ActionAddHost::isReverseEnabled() const
 void ActionAddHost::setReverseEnabled(bool reverseEnabled)
 {
     _reverseEnabled = reverseEnabled;
+}
+
+int ActionAddHost::getTtl() const
+{
+    return _ttl;
+}
+
+void ActionAddHost::setTtl(int ttl)
+{
+    _ttl = ttl;
 }
 
 const std::string ActionAddHost::getReversedValue() const
