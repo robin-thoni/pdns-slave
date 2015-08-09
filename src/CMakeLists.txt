@@ -6,21 +6,29 @@ set(SOURCE_FILES
   Interface/MainClass.h
   Interface/CommandLineParser.cpp
   Interface/CommandLineParser.h
-  DBO/CommandLineOption.cpp
-  DBO/CommandLineOption.h
   Business/PdnsSlave.cpp
   Business/PdnsSlave.h
-  DBO/SqlConfiguration.cpp
-  DBO/SqlConfiguration.h
   DataAccess/PdnsSlaveConfig.cpp
   DataAccess/PdnsSlaveConfig.h
   DataAccess/HostsConfig.cpp
   DataAccess/HostsConfig.h
-  DBO/Actions/Action.cpp
-  DBO/Actions/Action.h
+  DBO/CommandLineOption.cpp
+  DBO/CommandLineOption.h
+  DBO/SqlConfiguration.cpp
+  DBO/SqlConfiguration.h
   DBO/Result.hxx
   DBO/Result.h
+  DBO/Actions/Action.cpp
+  DBO/Actions/Action.h
+  DBO/Actions/ActionDelHost.cpp
+  DBO/Actions/ActionDelHost.h
+  DBO/Actions/ActionAddHost.cpp
+  DBO/Actions/ActionAddHost.h
+  DBO/Actions/ActionDelDomain.cpp
+  DBO/Actions/ActionDelDomain.h
+  DBO/Actions/ActionAddDomain.cpp
+  DBO/Actions/ActionAddDomain.h
   )
 set(LIBS ${LIBS} jsoncpp)
-add_executable(pdns-slave ${SOURCE_FILES} DBO/Actions/ActionDelHost.cpp DBO/Actions/ActionDelHost.h DBO/Actions/ActionAddHost.cpp DBO/Actions/ActionAddHost.h)
+add_executable(pdns-slave ${SOURCE_FILES})
 target_link_libraries(pdns-slave ${LIBS})

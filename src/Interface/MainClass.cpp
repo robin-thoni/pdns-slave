@@ -33,18 +33,34 @@ int MainClass::main()
 
     PdnsSlave pdnsSlave(filePath);
     BResult res;
+    Result<Actions> res2;
+
+    std::cout << "Reading pdns-slave configuration" << std::endl;
     if (!(res = pdnsSlave.readConfig()))
     {
         std::cerr << "Failed to read pdns-slave configuration" << std::endl;
         res.print();
         return 1;
     }
+    res.print();
+
+    std::cout << "Reading dhcpd template" << std::endl;
     if (!(res = pdnsSlave.readDhcpdTemplate()))
     {
         std::cerr << "Failed to read dhcpd template" << std::endl;
         res.print();
         return 2;
     }
+    res.print();
+
+    std::cout << "Reading hosts configuration" << std::endl;
+    if (!(res2 = pdnsSlave.readHosts()))
+    {
+        std::cerr << "Failed to read hosts configuration" << std::endl;
+        res2.print();
+        return 3;
+    }
+    res2.print();
 
     return 0;
 }

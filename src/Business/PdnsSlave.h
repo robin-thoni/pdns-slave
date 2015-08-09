@@ -6,7 +6,9 @@
 #define PDNS_SLAVE_PDNSSLAVE_H
 
 # include <string>
+# include <memory>
 # include "DBO/SqlConfiguration.h"
+# include "DBO/Actions/Action.h"
 
 class PdnsSlave
 {
@@ -16,6 +18,8 @@ public:
     BResult readConfig();
 
     BResult readDhcpdTemplate();
+
+    Result<Actions> readHosts();
 
 private:
     std::string _filePath;
@@ -31,6 +35,8 @@ private:
     SqlConfiguration _slaveConfig;
 
     std::string _dhcpdTemplateContent;
+
+    Actions _actions;
 };
 
 

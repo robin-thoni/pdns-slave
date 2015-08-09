@@ -4,6 +4,7 @@
 
 #include <fstream>
 #include "DataAccess/PdnsSlaveConfig.h"
+#include "DataAccess/HostsConfig.h"
 #include "PdnsSlave.h"
 
 PdnsSlave::PdnsSlave(const std::string &filePath)
@@ -40,4 +41,14 @@ BResult PdnsSlave::readDhcpdTemplate()
     }
     dhcpTemplate.close();
     return true;
+}
+
+Result<Actions> PdnsSlave::readHosts()
+{
+    HostsConfig conf(_hostsPath);
+    auto res = conf.readConfig();
+    if (!res)
+        return res;
+    _actions = res.getData();
+    return res;
 }
