@@ -122,3 +122,16 @@ const std::string ActionAddHost::getReversedValue() const
         reversedValue += std::string(splitValue[i]) + (i == (int) splitValue.size() - index ? "" : ".");
     return reversedValue;
 }
+
+const std::string ActionAddHost::getDhcp() const
+{
+    if (!_dhcpMac.empty() && _recordType == "A")
+    {
+        return "\thost " + _host + " {\n"
+                "\t\thardware ethernet " + _dhcpMac + ";\n"
+                "\t\tfixed-address " + _host + "." + _domain + ";\n"
+                "\t}\n";
+    }
+    else
+        return "";
+}

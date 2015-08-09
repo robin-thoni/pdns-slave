@@ -21,6 +21,10 @@ public:
 
     Result<Actions> readHosts();
 
+    BResult overridePdns();
+
+    BResult overrideDhcp();
+
 private:
     std::string _filePath;
 

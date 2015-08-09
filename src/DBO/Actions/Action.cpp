@@ -26,3 +26,13 @@ const std::string Action::getSqlQuery() const
 {
     return "SET @domain_id=(SELECT get_domain_id(\"" + _domain + "\"));\n" + getSql();
 }
+
+const std::string Action::getDhcpConf() const
+{
+    return getDhcp();
+}
+
+const std::string Action::getDhcp() const
+{
+    return "";
+}

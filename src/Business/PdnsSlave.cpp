@@ -7,6 +7,14 @@
 #include "DataAccess/HostsConfig.h"
 #include "PdnsSlave.h"
 
+bool replace(std::string& str, const std::string& from, const std::string& to) {
+    size_t start_pos = str.find(from);
+    if(start_pos == std::string::npos)
+        return false;
+    str.replace(start_pos, from.length(), to);
+    return true;
+}
+
 PdnsSlave::PdnsSlave(const std::string &filePath)
     : _filePath(filePath)
 {
@@ -50,7 +58,26 @@ Result<Actions> PdnsSlave::readHosts()
     if (!res)
         return res;
     _actions = res.getData();
-    for (auto action : _actions)
-        std::cout << action->getSqlQuery() << std::endl << std::endl;
     return res;
+}
+
+BResult PdnsSlave::overridePdns()
+{
+    return true;
+}
+
+BResult PdnsSlave::overrideDhcp()
+{
+    std::string hosts;
+    for (auto a : _actions)
+        hosts += a->getDhcpConf();
+
+    auto dhcp = _dhcpdTemplateContent;
+    replace(dhcp, "%%HOSTS%%", hosts);
+    std::ofstream file(_dhcpdFilePath);
+    if (!file)
+        return BResult().error("Could not open file");
+    file << dhcp;
+    file.close();
+    return true;
 }

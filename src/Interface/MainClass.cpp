@@ -19,10 +19,12 @@ int MainClass::main()
 {
     CommandLineOption configFile("config", 'c', "Path to the configuration file",
                                  "FILE", "/etc/pdns-slave/pdns-slave.json");
+    CommandLineOption check("check", 'C', "Only check configurations", "", "");
     CommandLineOption help("help", 'h', "Displays this help", "", "");
     CommandLineParser parser(_argc, _argv);
     parser.addOption(&help);
     parser.addOption(&configFile);
+    parser.addOption(&check);
     if (!parser.parse())
         return parser.showHelp(EX_USAGE);
     if (help.isSet())
@@ -61,6 +63,27 @@ int MainClass::main()
         return 3;
     }
     res2.print();
+
+    if (!check.isSet())
+    {
+        std::cout << "Overriding dns" << std::endl;
+        if (!(res = pdnsSlave.overridePdns()))
+        {
+            std::cerr << "Failed to override dns" << std::endl;
+            res.print();
+            return 4;
+        }
+        res.print();
+
+        std::cout << "Overriding dhcp" << std::endl;
+        if (!(res = pdnsSlave.overrideDhcp()))
+        {
+            std::cerr << "Failed to override dhcp" << std::endl;
+            res.print();
+            return 5;
+        }
+        res.print();
+    }
 
     return 0;
 }

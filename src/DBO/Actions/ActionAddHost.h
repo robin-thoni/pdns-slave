@@ -39,6 +39,8 @@ public:
 protected:
     const std::string getSql() const override;
 
+    const std::string getDhcp() const override;
+
 private:
     const std::string getReversedValue() const;
 
