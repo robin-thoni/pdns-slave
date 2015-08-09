@@ -59,7 +59,6 @@ void MySql::clean()
 
 BResult MySql::insert()
 {
-    _dumpFilePath = getTempFile();
     return insertSlave(_dumpFilePath);
 }
 
