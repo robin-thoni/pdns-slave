@@ -27,8 +27,9 @@ ActionAddHost::ActionAddHost()
 
 const std::string ActionAddHost::getSql() const
 {
+    auto host = _host.empty() ? _domain : _host + "." + _domain;
     auto query = "INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)\n"
-            "    VALUES(@domain_id, \"" + _host + "." + _domain + "\", \"" + _recordType + "\","
+            "    VALUES(@domain_id, \"" + host + "\", \"" + _recordType + "\","
             " \"" + _recordValue + "\", 84600, 0, " + std::to_string(time(nullptr)) + ");\n";
 
     if (_reverseEnabled && _recordType == "A")
