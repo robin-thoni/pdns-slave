@@ -12,11 +12,11 @@ PdnsSlaveConfig::PdnsSlaveConfig(const std::string &filePath)
 {
 }
 
-bool PdnsSlaveConfig::readConfig()
+BResult PdnsSlaveConfig::readConfig()
 {
     std::ifstream file(_filePath);
     if (!file)
-        return false;
+        return BResult().error("Could not open file");
     Json::Value root;
     try
     {
@@ -26,49 +26,50 @@ bool PdnsSlaveConfig::readConfig()
     catch (...)
     {
         file.close();
-        return false;
+        return BResult().error("Could not parse JSON");
     }
-    if (!readString(root, "dhcpd-file", _dhcpdFilePath))
-        return false;
-    if (!readString(root, "dhcpd-template", _dhcpdTemplatePath))
-        return false;
-    if (!readString(root, "hosts-file", _hostsPath))
-        return false;
-    if (!readSqlConfiguration(root, "master", _masterConfig))
-        return false;
-    if (!readSqlConfiguration(root, "slave", _slaveConfig))
-        return false;
-
+    BResult res;
+    if (!(res = readString(root, "dhcpd-file", _dhcpdFilePath)))
+        return res;
+    if (!(res = readString(root, "dhcpd-template", _dhcpdTemplatePath)))
+        return res;
+    if (!(res = readString(root, "hosts-file", _hostsPath)))
+        return res;
+    if (!(res = readSqlConfiguration(root, "master", _masterConfig)))
+        return res;
+    if (!(res = readSqlConfiguration(root, "slave", _slaveConfig)))
+        return res;
     return true;
 }
 
-bool PdnsSlaveConfig::readSqlConfiguration(const Json::Value &value, const std::string &name, SqlConfiguration &sqlConfiguration)
+BResult PdnsSlaveConfig::readSqlConfiguration(const Json::Value &value, const std::string &name, SqlConfiguration &sqlConfiguration)
 {
     std::string str;
-    if (!readString(value, name + "-host", str))
-        return false;
+    BResult res;
+    if (!(res = readString(value, name + "-host", str)))
+        return res;
     sqlConfiguration.setHost(str);
 
-    if (!readString(value, name + "-user", str))
-        return false;
+    if (!(res = readString(value, name + "-user", str)))
+        return res;
     sqlConfiguration.setUser(str);
 
-    if (!readString(value, name + "-password", str))
-        return false;
+    if (!(res = readString(value, name + "-password", str)))
+        return res;
     sqlConfiguration.setPassword(str);
 
-    if (!readString(value, name + "-database", str))
-        return false;
+    if (!(res = readString(value, name + "-database", str)))
+        return res;
     sqlConfiguration.setDatabase(str);
 
     return true;
 }
 
-bool PdnsSlaveConfig::readString(const Json::Value &value, const std::string &name, std::string &dest)
+BResult PdnsSlaveConfig::readString(const Json::Value &value, const std::string &name, std::string &dest)
 {
     auto v = value[name];
     if (!v)
-        return false;
+        return BResult().error("Could not find value " + name);
     dest = v.asString();
     return true;
 }

@@ -14,7 +14,13 @@ set(SOURCE_FILES
   DBO/SqlConfiguration.h
   DataAccess/PdnsSlaveConfig.cpp
   DataAccess/PdnsSlaveConfig.h
+  DataAccess/HostsConfig.cpp
+  DataAccess/HostsConfig.h
+  DBO/Actions/Action.cpp
+  DBO/Actions/Action.h
+  DBO/Result.hxx
+  DBO/Result.h
   )
 set(LIBS ${LIBS} jsoncpp)
-add_executable(pdns-slave ${SOURCE_FILES} DataAccess/HostsConfig.cpp DataAccess/HostsConfig.h)
+add_executable(pdns-slave ${SOURCE_FILES} DBO/Actions/ActionDelHost.cpp DBO/Actions/ActionDelHost.h DBO/Actions/ActionAddHost.cpp DBO/Actions/ActionAddHost.h)
 target_link_libraries(pdns-slave ${LIBS})

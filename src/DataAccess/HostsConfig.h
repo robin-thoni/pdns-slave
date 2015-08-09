@@ -6,13 +6,14 @@
 #define PDNS_SLAVE_HOSTSCONFIG_H
 
 # include <string>
+# include <DBO/Result.h>
 
 class HostsConfig
 {
 public:
     HostsConfig(const std::string& filePath);
 
-    bool readConfig();
+    BResult readConfig();
 
 private:
     Json::Value readValue(const Json::Value &value, const Json::Value &defaults, const std::string& name);

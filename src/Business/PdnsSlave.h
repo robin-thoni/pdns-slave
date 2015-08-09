@@ -13,9 +13,9 @@ class PdnsSlave
 public:
     PdnsSlave(const std::string& filePath);
 
-    bool readConfig();
+    BResult readConfig();
 
-    bool readDhcpdTemplate();
+    BResult readDhcpdTemplate();
 
 private:
     std::string _filePath;

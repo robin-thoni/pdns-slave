@@ -11,11 +11,12 @@ PdnsSlave::PdnsSlave(const std::string &filePath)
 {
 }
 
-bool PdnsSlave::readConfig()
+BResult PdnsSlave::readConfig()
 {
     PdnsSlaveConfig conf(_filePath);
-    if (!conf.readConfig())
-        return false;
+    BResult res;
+    if (!(res = conf.readConfig()))
+        return res;
 
     _dhcpdFilePath = conf.getDhcpdFilePath();
     _dhcpdTemplatePath = conf.getDhcpdTemplatePath();
@@ -26,11 +27,11 @@ bool PdnsSlave::readConfig()
     return true;
 }
 
-bool PdnsSlave::readDhcpdTemplate()
+BResult PdnsSlave::readDhcpdTemplate()
 {
     std::ifstream dhcpTemplate(_dhcpdTemplatePath);
     if (!dhcpTemplate)
-        return false;
+        return BResult().error("Could not open file");
     while (!dhcpTemplate.eof())
     {
         std::string line;

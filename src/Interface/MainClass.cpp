@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <sysexits.h>
+#include <DBO/Result.h>
 #include "CommandLineParser.h"
 #include "Business/PdnsSlave.h"
 #include "MainClass.h"
@@ -31,14 +32,17 @@ int MainClass::main()
     std::cout << "Using configuration file " << filePath << std::endl;
 
     PdnsSlave pdnsSlave(filePath);
-    if (!pdnsSlave.readConfig())
+    BResult res;
+    if (!(res = pdnsSlave.readConfig()))
     {
         std::cerr << "Failed to read pdns-slave configuration" << std::endl;
+        res.print();
         return 1;
     }
-    if (!pdnsSlave.readDhcpdTemplate())
+    if (!(res = pdnsSlave.readDhcpdTemplate()))
     {
         std::cerr << "Failed to read dhcpd template" << std::endl;
+        res.print();
         return 2;
     }
 

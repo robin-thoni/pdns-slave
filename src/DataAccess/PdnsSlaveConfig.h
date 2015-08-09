@@ -6,6 +6,7 @@
 #define PDNS_SLAVE_PDNSSLAVECONFIG_H
 
 # include <string>
+# include "DBO/Result.h"
 # include "DBO/SqlConfiguration.h"
 
 namespace Json
@@ -18,7 +19,7 @@ class PdnsSlaveConfig
 public:
     PdnsSlaveConfig(const std::string& filePath);
 
-    bool readConfig();
+    BResult readConfig();
 
     const std::string &getDhcpdFilePath() const;
 
@@ -31,9 +32,9 @@ public:
     const SqlConfiguration &getSlaveConfig() const;
 
 private:
-    bool readString(const Json::Value& value, const std::string& name, std::string& dest);
+    BResult readString(const Json::Value& value, const std::string& name, std::string& dest);
 
-    bool readSqlConfiguration(const Json::Value &value, const std::string &name, SqlConfiguration& sqlConfiguration);
+    BResult readSqlConfiguration(const Json::Value &value, const std::string &name, SqlConfiguration& sqlConfiguration);
 
     std::string _filePath;
 
