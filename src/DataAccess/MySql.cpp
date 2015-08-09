@@ -25,7 +25,7 @@ BResult MySql::dump()
 {
     BResult res;
     _dumpFilePath = getTempFile();
-    int status = system(std::string("mysqldump --routines '-h" + _masterConfig.getHost() + "'"
+    int status = system(std::string("mysqldump '-h" + _masterConfig.getHost() + "'"
                        + " '-u" + _masterConfig.getUser() + "'"
                        + " '-p" + _masterConfig.getPassword() + "'"
                        + " " + _masterConfig.getDatabase()
