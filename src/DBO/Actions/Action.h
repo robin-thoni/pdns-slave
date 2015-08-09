@@ -6,6 +6,8 @@
 #define PDNS_SLAVE_ACTION_H
 
 # include <string>
+# include <memory>
+# include <vector>
 
 class Action
 {
@@ -23,5 +25,6 @@ private:
     std::string _domain;
 };
 
+typedef std::vector<std::shared_ptr<Action>> Actions;
 
 #endif //PDNS_SLAVE_ACTION_H
