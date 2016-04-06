@@ -1,5 +1,5 @@
 include_directories(.)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -I${JSONCPP_INCLUDE_DIRS}")
 set(SOURCE_FILES
   main.cpp
   Interface/MainClass.cpp
@@ -12,6 +12,8 @@ set(SOURCE_FILES
   DataAccess/PdnsSlaveConfig.h
   DataAccess/HostsConfig.cpp
   DataAccess/HostsConfig.h
+  DataAccess/MySql.cpp
+  DataAccess/MySql.h
   DBO/CommandLineOption.cpp
   DBO/CommandLineOption.h
   DBO/SqlConfiguration.cpp
@@ -28,7 +30,7 @@ set(SOURCE_FILES
   DBO/Actions/ActionDelDomain.h
   DBO/Actions/ActionAddDomain.cpp
   DBO/Actions/ActionAddDomain.h
-  )
+        DataAccess/AbstractSql.cpp DataAccess/AbstractSql.h)
 set(LIBS ${LIBS} jsoncpp)
-add_executable(pdns-slave ${SOURCE_FILES} DataAccess/MySql.cpp DataAccess/MySql.h)
+add_executable(pdns-slave ${SOURCE_FILES})
 target_link_libraries(pdns-slave ${LIBS})
