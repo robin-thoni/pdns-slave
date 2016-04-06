@@ -27,6 +27,8 @@ public:
 
     const std::string &getHostsPath() const;
 
+    const std::string &getDbType() const;
+
     const SqlConfiguration &getMasterConfig() const;
 
     const SqlConfiguration &getSlaveConfig() const;
@@ -44,6 +46,8 @@ private:
     std::string _dhcpdTemplatePath;
 
     std::string _hostsPath;
+
+    std::string _dbType;
 
     SqlConfiguration _masterConfig;
 

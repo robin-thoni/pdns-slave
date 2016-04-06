@@ -30,7 +30,7 @@ set(SOURCE_FILES
   DBO/Actions/ActionDelDomain.h
   DBO/Actions/ActionAddDomain.cpp
   DBO/Actions/ActionAddDomain.h
-        DataAccess/AbstractSql.cpp DataAccess/AbstractSql.h)
+        DataAccess/AbstractSql.cpp DataAccess/AbstractSql.h DataAccess/PgSql.cpp DataAccess/PgSql.h)
 set(LIBS ${LIBS} jsoncpp)
 add_executable(pdns-slave ${SOURCE_FILES})
 target_link_libraries(pdns-slave ${LIBS})

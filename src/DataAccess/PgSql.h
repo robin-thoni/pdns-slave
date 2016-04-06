@@ -1,17 +1,17 @@
 //
-// Created by robin on 8/9/15.
+// Created by robin on 4/6/16.
 //
 
-#ifndef PDNS_SLAVE_MYSQL_H
-#define PDNS_SLAVE_MYSQL_H
+#ifndef PDNS_SLAVE_PGSQL_H
+#define PDNS_SLAVE_PGSQL_H
 
 #include "AbstractSql.h"
 
-class MySql : public AbstractSql
+class PgSql : public AbstractSql
 {
 public:
-    MySql(const SqlConfiguration& masterConfig, const SqlConfiguration& slaveConfig);
-    ~MySql();
+    PgSql(const SqlConfiguration& masterConfig, const SqlConfiguration& slaveConfig);
+    ~PgSql();
 
     BResult dump();
 
@@ -30,4 +30,4 @@ private:
 };
 
 
-#endif //PDNS_SLAVE_MYSQL_H
+#endif //PDNS_SLAVE_PGSQL_H

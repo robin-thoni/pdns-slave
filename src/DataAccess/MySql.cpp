@@ -11,14 +11,22 @@
 #define tmpTemplate "/tmp/pdns-slave.XXXXXX"
 
 MySql::MySql(const SqlConfiguration &masterConfig, const SqlConfiguration &slaveConfig)
-    : _masterConfig(masterConfig)
-    , _slaveConfig(slaveConfig)
+    : AbstractSql(masterConfig, slaveConfig)
 {
 }
 
 MySql::~MySql()
 {
-    clean();
+    if (!_dumpFilePath.empty())
+    {
+        unlink(_dumpFilePath.c_str());
+        _dumpFilePath = "";
+    }
+    if (!_overrideFilePath.empty())
+    {
+        unlink(_overrideFilePath.c_str());
+        _overrideFilePath = "";
+    }
 }
 
 BResult MySql::dump()
@@ -41,20 +49,6 @@ const std::string MySql::getTempFile()
     strcpy(tmp, tmpTemplate);
     mkstemp(tmp);
     return std::string(tmp);
-}
-
-void MySql::clean()
-{
-    if (!_dumpFilePath.empty())
-    {
-        unlink(_dumpFilePath.c_str());
-        _dumpFilePath = "";
-    }
-    if (!_overrideFilePath.empty())
-    {
-        unlink(_overrideFilePath.c_str());
-        _overrideFilePath = "";
-    }
 }
 
 BResult MySql::insert()

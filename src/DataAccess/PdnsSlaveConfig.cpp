@@ -35,6 +35,12 @@ BResult PdnsSlaveConfig::readConfig()
         return res;
     if (!(res = readString(root, "hosts-file", _hostsPath)))
         return res;
+    if (!(res = readString(root, "db-type", _dbType)))
+        return res;
+    if (_dbType != "mysql" && _dbType != "pgsql")
+    {
+        return BResult().error("Invalid database type " + _dbType);
+    }
     if (!(res = readSqlConfiguration(root, "master", _masterConfig)))
         return res;
     if (!(res = readSqlConfiguration(root, "slave", _slaveConfig)))
@@ -97,4 +103,9 @@ const SqlConfiguration &PdnsSlaveConfig::getMasterConfig() const
 const SqlConfiguration &PdnsSlaveConfig::getSlaveConfig() const
 {
     return _slaveConfig;
+}
+
+const std::string &PdnsSlaveConfig::getDbType() const
+{
+    return _dbType;
 }

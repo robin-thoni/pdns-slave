@@ -4,6 +4,7 @@
 
 #include <fstream>
 #include <DataAccess/MySql.h>
+#include <DataAccess/PgSql.h>
 #include "DataAccess/PdnsSlaveConfig.h"
 #include "DataAccess/HostsConfig.h"
 #include "PdnsSlave.h"
@@ -31,6 +32,7 @@ BResult PdnsSlave::readConfig()
     _dhcpdFilePath = conf.getDhcpdFilePath();
     _dhcpdTemplatePath = conf.getDhcpdTemplatePath();
     _hostsPath = conf.getHostsPath();
+    _dbType = conf.getDbType();
     _masterConfig = conf.getMasterConfig();
     _slaveConfig = conf.getSlaveConfig();
 
@@ -64,16 +66,27 @@ Result<Actions> PdnsSlave::readHosts()
 
 BResult PdnsSlave::overridePdns()
 {
-    MySql mysql(_masterConfig, _slaveConfig);
-    auto res = mysql.dump();
+    AbstractSql* sqlDb = 0;
+    if (_dbType == "mysql") {
+        sqlDb = new MySql(_masterConfig, _slaveConfig);
+    }
+    else if (_dbType == "pgsql") {
+        sqlDb = new PgSql(_masterConfig, _slaveConfig);
+    }
+    else {
+        return BResult().error("Invalid database type " + _dbType);
+    }
+    auto res = sqlDb->dump();
     if (!res)
         return res;
-    if (!(res = mysql.insert()))
+    if (!(res = sqlDb->insert()))
         return res;
     std::string sql;
     for (auto a : _actions)
         sql += a->getSqlQuery();
-    return mysql.override(sql);
+    res = sqlDb->override(sql);
+    delete sqlDb;
+    return res;
 }
 
 BResult PdnsSlave::overrideDhcp()

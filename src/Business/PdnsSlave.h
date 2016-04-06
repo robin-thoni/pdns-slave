@@ -34,6 +34,8 @@ private:
 
     std::string _hostsPath;
 
+    std::string _dbType;
+
     SqlConfiguration _masterConfig;
 
     SqlConfiguration _slaveConfig;

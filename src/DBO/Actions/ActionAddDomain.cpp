@@ -78,7 +78,7 @@ void ActionAddDomain::setTtl(int ttl)
     _ttl = ttl;
 }
 
-const std::string ActionAddDomain::getSql() const //ns.rthoni.com rthoni.hotmail.fr 2015080600 28800 7200 604800 86400
+const std::string ActionAddDomain::getSql() const
 {
     auto soa = _soaNs + " " + _soaMail + " " + std::to_string(time(nullptr)) + " " + std::to_string(_soaRefresh)
              + " " + std::to_string(_soaRetry)+ " " + std::to_string(_soaExpire) + " " + std::to_string(_soaTtl);
