@@ -40,13 +40,14 @@ public:
 
     void setTtl(int ttl);
 
+    const std::string getReversedValue() const;
+
 protected:
-    const std::string getSql() const override;
+    const std::string getSql(AbstractSql* sqlDb) const override;
 
     const std::string getDhcp() const override;
 
 private:
-    const std::string getReversedValue() const;
 
     std::string _host;
 

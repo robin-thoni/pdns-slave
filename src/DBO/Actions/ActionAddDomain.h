@@ -41,7 +41,7 @@ public:
     void setSoaMail(const std::string &soaMail);
 
 protected:
-    const std::string getSql() const override;
+    const std::string getSql(AbstractSql* sqlDb) const override;
 
 private:
     std::string _soaNs;

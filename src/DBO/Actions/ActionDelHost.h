@@ -17,7 +17,7 @@ public:
     void setHost(const std::string &host);
 
 protected:
-    const std::string getSql() const override;
+    const std::string getSql(AbstractSql* sqlDb) const override;
 
 private:
     std::string _host;

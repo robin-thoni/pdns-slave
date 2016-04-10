@@ -37,7 +37,6 @@ BResult PgSql::dump()
                                + "-U '" + _masterConfig.getUser() + "' "
                                + "-w -c -x -O '" + _masterConfig.getDatabase() + "' "
                                + "> '" + _dumpFilePath + "'");
-    std::cout << command << std::endl;
     int status = system(command.c_str());
     if (status == 0)
         return res.ok(true);
@@ -75,9 +74,28 @@ BResult PgSql::insertSlave(const std::string &file)
                                + "psql -h '" + _slaveConfig.getHost() + "' "
                                + "-U '" + _slaveConfig.getUser() + "' "
                                + "-w -d '" + _slaveConfig.getDatabase() + "' > /dev/null");
-    std::cout << command << std::endl;
     int status = system(command.c_str());
     if (status == 0)
         return res.ok(true);
     return res.error("psql exited with code " + std::to_string(status));
+}
+
+std::string PgSql::getAddDomainQuery(const ActionAddDomain &action)
+{
+    return "";
+}
+
+std::string PgSql::getAddHostQuery(const ActionAddHost &action)
+{
+    return "";
+}
+
+std::string PgSql::getDelDomainQuery(const ActionDelDomain &action)
+{
+    return "";
+}
+
+std::string PgSql::getDelHostQuery(const ActionDelHost &action)
+{
+    return "";
 }

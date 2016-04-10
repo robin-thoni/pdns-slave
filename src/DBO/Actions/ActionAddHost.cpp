@@ -5,6 +5,7 @@
 #include <sstream>
 #include <vector>
 #include "ActionAddHost.h"
+#include "../../DataAccess/AbstractSql.h"
 
 std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems) {
     std::stringstream ss(s);
@@ -25,25 +26,9 @@ ActionAddHost::ActionAddHost()
 {
 }
 
-const std::string ActionAddHost::getSql() const
+const std::string ActionAddHost::getSql(AbstractSql* sqlDb) const
 {
-    auto host = _host.empty() ? _domain : _host + "." + _domain;
-    auto query = "INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)\n"
-            "    VALUES(@domain_id, \"" + host + "\", \"" + _recordType + "\","
-            " \"" + _recordValue + "\", " + std::to_string(_ttl) + ", 0, " + std::to_string(time(nullptr)) + ");\n";
-
-    if (_reverseEnabled && _recordType == "A")
-    {
-        auto reversedValue = getReversedValue();
-        auto reverseDomain = _reverseDomain.empty() ? "in-addr.arpa" : _reverseDomain + ".in-addr.arpa";
-
-        query += "INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)\n"
-                 "    VALUES((SELECT id FROM domains WHERE name=\"" + reverseDomain + "\"), \""
-                 + reversedValue + "." + reverseDomain + "\", \"PTR\","
-                 " \"" + _host + "." + _domain + "\", 84600, 0, " + std::to_string(time(nullptr)) + ");\n";
-    }
-
-    return query;
+    return sqlDb->getAddHostQuery(*this);
 }
 
 const std::string &ActionAddHost::getHost() const

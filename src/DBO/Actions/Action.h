@@ -5,9 +5,11 @@
 #ifndef PDNS_SLAVE_ACTION_H
 #define PDNS_SLAVE_ACTION_H
 
-# include <string>
-# include <memory>
-# include <vector>
+#include <string>
+#include <memory>
+#include <vector>
+
+class AbstractSql;
 
 class Action
 {
@@ -17,14 +19,13 @@ public:
 
     const std::string getDhcpConf() const;
 
-    const std::string getSqlQuery() const;
+    virtual const std::string getSql(AbstractSql* sqlDb) const = 0;
 
     const std::string &getDomain() const;
 
     void setDomain(const std::string &domain);
 
 protected:
-    virtual const std::string getSql() const = 0;
 
     virtual const std::string getDhcp() const;
 

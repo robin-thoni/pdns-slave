@@ -22,11 +22,6 @@ void Action::setDomain(const std::string &domain)
     _domain = domain;
 }
 
-const std::string Action::getSqlQuery() const
-{
-    return "SET @domain_id=(SELECT id FROM domains WHERE name=\"" + _domain + "\");\n" + getSql();
-}
-
 const std::string Action::getDhcpConf() const
 {
     return getDhcp();

@@ -3,15 +3,15 @@
 //
 
 #include "ActionDelHost.h"
+#include "../../DataAccess/AbstractSql.h"
 
 ActionDelHost::ActionDelHost()
 {
 }
 
-const std::string ActionDelHost::getSql() const
+const std::string ActionDelHost::getSql(AbstractSql* sqlDb) const
 {
-    return "DELETE FROM records WHERE name=\"" + _host + "." + _domain + "\" AND "
-           "domain_id=@domain_id;";
+    return sqlDb->getDelHostQuery(*this);
 }
 
 const std::string &ActionDelHost::getHost() const

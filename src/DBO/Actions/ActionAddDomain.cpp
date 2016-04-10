@@ -3,6 +3,7 @@
 //
 
 #include "ActionAddDomain.h"
+#include "../../DataAccess/AbstractSql.h"
 
 ActionAddDomain::ActionAddDomain()
 {
@@ -78,16 +79,7 @@ void ActionAddDomain::setTtl(int ttl)
     _ttl = ttl;
 }
 
-const std::string ActionAddDomain::getSql() const
+const std::string ActionAddDomain::getSql(AbstractSql* sqlDb) const
 {
-    auto soa = _soaNs + " " + _soaMail + " " + std::to_string(time(nullptr)) + " " + std::to_string(_soaRefresh)
-             + " " + std::to_string(_soaRetry)+ " " + std::to_string(_soaExpire) + " " + std::to_string(_soaTtl);
-
-    return "INSERT INTO domains (name, type) VALUES (\"" + _domain + "\", \"MASTER\");\n"
-            "SET @domain_id=(SELECT id FROM domains WHERE name=\"" + _domain + "\");\n"
-            "INSERT INTO zones (domain_id, owner, zone_templ_id) VALUES (@domain_id, "
-            "(SELECT id FROM users ORDER BY id LIMIT 1), 0);\n"
-            "INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)\n"
-            "    VALUES(@domain_id, \"" + _domain + "\", \"SOA\","
-            " \"" + soa + "\", " + std::to_string(_ttl) + ", 0, " + std::to_string(time(nullptr)) + ");\n";
+    return sqlDb->getAddDomainQuery(*this);
 }

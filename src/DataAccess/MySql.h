@@ -19,6 +19,14 @@ public:
 
     BResult override(const std::string& sql);
 
+    virtual std::string getAddDomainQuery(const ActionAddDomain &action) override;
+
+    virtual std::string getAddHostQuery(const ActionAddHost &action) override;
+
+    virtual std::string getDelDomainQuery(const ActionDelDomain &action) override;
+
+    virtual std::string getDelHostQuery(const ActionDelHost &action) override;
+
 private:
     const std::string getTempFile();
 

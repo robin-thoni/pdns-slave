@@ -13,7 +13,7 @@ public:
     ActionDelDomain();
 
 protected:
-    const std::string getSql() const override;
+    const std::string getSql(AbstractSql* sqlDb) const override;
 };
 
 

@@ -83,7 +83,7 @@ BResult PdnsSlave::overridePdns()
         return res;
     std::string sql;
     for (auto a : _actions)
-        sql += a->getSqlQuery();
+        sql += a->getSql(sqlDb);
     res = sqlDb->override(sql);
     delete sqlDb;
     return res;
