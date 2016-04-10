@@ -82,20 +82,57 @@ BResult PgSql::insertSlave(const std::string &file)
 
 std::string PgSql::getAddDomainQuery(const ActionAddDomain &action)
 {
-    return "";
+    auto soa = action.getSoaNs() + " " + action.getSoaMail() + " " + std::to_string(time(nullptr)) + " "
+               + std::to_string(action.getSoaRefresh()) + " " + std::to_string(action.getSoaRetry()) + " "
+               + std::to_string(action.getSoaExpire()) + " " + std::to_string(action.getSoaTtl());
+
+    return "INSERT INTO domains (name, type) VALUES (\'" + action.getDomain() + "\', \'MASTER\');\n"
+                   "INSERT INTO zones (domain_id, owner, zone_templ_id) VALUES "
+                   "((SELECT id FROM domains WHERE name=\'" + action.getDomain() + "\'), "
+                   "(SELECT id FROM users ORDER BY id LIMIT 1), 0);\n"
+                   "INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)\n"
+                   "    VALUES((SELECT id FROM domains WHERE name=\'" + action.getDomain() + "\'), \'"
+           + action.getDomain() + "\', \'SOA\', \'" + soa + "\', " + std::to_string(action.getTtl()) + ", 0, "
+           + std::to_string(time(nullptr)) + ");\n";
 }
 
 std::string PgSql::getAddHostQuery(const ActionAddHost &action)
 {
-    return "";
+    auto host = action.getHost().empty() ? action.getDomain() : action.getHost() + "." + action.getDomain();
+    auto query = "INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)\n"
+                 "    VALUES((SELECT id FROM domains WHERE name=\'" + action.getDomain() + "\'), \'"
+                 + host + "\', \'" + action.getRecordType() + "\', \'"
+                 + action.getRecordValue() + "\', " + std::to_string(action.getTtl())
+                 + ", 0, " + std::to_string(time(nullptr)) + ");\n";
+
+    if (action.isReverseEnabled() && action.getRecordType() == "A")
+    {
+        auto reversedValue = action.getReversedValue();
+        auto reverseDomain = action.getReverseDomain().empty() ? "in-addr.arpa" :
+                             action.getReverseDomain() + ".in-addr.arpa";
+
+        query += "INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)\n"
+                         "    VALUES((SELECT id FROM domains WHERE name=\'" + reverseDomain + "\'), \'"
+                 + reversedValue + "." + reverseDomain + "\', \'PTR\', \'" + action.getHost()
+                 + "." + action.getDomain() + "\', " + std::to_string(action.getTtl()) + ", 0, "
+                 + std::to_string(time(nullptr)) + ");\n";
+    }
+
+    return query;
 }
 
 std::string PgSql::getDelDomainQuery(const ActionDelDomain &action)
 {
-    return "";
+    return "DELETE FROM records WHERE domain_id=(SELECT id FROM domains WHERE name=\'" + action.getDomain() + "\');\n"
+           "DELETE FROM comments WHERE domain_id=(SELECT id FROM domains WHERE name=\'" + action.getDomain() + "\');\n"
+           "DELETE FROM zones WHERE domain_id=(SELECT id FROM domains WHERE name=\'" + action.getDomain() + "\');\n"
+           "DELETE FROM cryptokeys WHERE domain_id=(SELECT id FROM domains WHERE name=\'" + action.getDomain() + "\');\n"
+           "DELETE FROM domainmetadata WHERE domain_id=(SELECT id FROM domains WHERE name=\'" + action.getDomain() + "\');\n"
+           "DELETE FROM domains WHERE id=(SELECT id FROM domains WHERE name=\'" + action.getDomain() + "\');\n";
 }
 
 std::string PgSql::getDelHostQuery(const ActionDelHost &action)
 {
-    return "";
+    return "DELETE FROM records WHERE name=\'" + action.getHost() + "." + action.getDomain() + "\' AND "
+            "domain_id=(SELECT id FROM domains WHERE name=\'" + action.getDomain() + "\');";
 }

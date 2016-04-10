@@ -85,8 +85,7 @@ std::string MySql::getAddDomainQuery(const ActionAddDomain &action)
                + std::to_string(action.getSoaRefresh()) + " " + std::to_string(action.getSoaRetry()) + " "
                + std::to_string(action.getSoaExpire()) + " " + std::to_string(action.getSoaTtl());
 
-    return "SET @domain_id=(SELECT id FROM domains WHERE name=\"" + action.getDomain() + "\");\n"
-            "INSERT INTO domains (name, type) VALUES (\"" + action.getDomain() + "\", \"MASTER\");\n"
+    return "INSERT INTO domains (name, type) VALUES (\"" + action.getDomain() + "\", \"MASTER\");\n"
             "SET @domain_id=(SELECT id FROM domains WHERE name=\"" + action.getDomain() + "\");\n"
                    "INSERT INTO zones (domain_id, owner, zone_templ_id) VALUES (@domain_id, "
                    "(SELECT id FROM users ORDER BY id LIMIT 1), 0);\n"
